@@ -6,6 +6,7 @@ const path = require('path');
 const Home = require('../routes/homeRoute.js');
 const About = require('../routes/aboutRoute.js');
 const Weather = require('../routes/weatherRoute.js');
+const Error = require('../routes/errorRoute.js');
 
 const port = process.env.PORT || 8080;
 
@@ -16,9 +17,10 @@ app.use(express.static(path.join(__dirname,"..","public")));
 
 app.set('view engine','ejs');
 
+app.use("/", Home);
 app.use("/about", About);
 app.use("/weather", Weather);
-app.use("/", Home);
+app.use('*',Error);
 
 
 app.listen(port, () => {
