@@ -1,19 +1,21 @@
-require('dotenv').config();
-const express = require('express');
+import dotenv from 'dotenv';
+dotenv.config();
+import express from 'express';
 const app = express();
-const bodyParser = require('body-parser');
-const path = require('path');
-const Home = require('../routes/homeRoute.js');
-const About = require('../routes/aboutRoute.js');
-const Weather = require('../routes/weatherRoute.js');
-const Error = require('../routes/errorRoute.js');
+import bodyParser from 'body-parser';
+const { urlencoded } = bodyParser;
+import { fileURLToPath } from 'url';
+import path from 'path';
+import Home from '../routes/homeRoute.js';
+import About from '../routes/aboutRoute.js';
+import Weather from '../routes/weatherRoute.js';
+import Error from '../routes/errorRoute.js';
 
 const port = process.env.PORT || 8080;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-
-
-app.use(express.static(path.join(__dirname,"..","public")));
+app.use(express.json());
+app.use(urlencoded({ extended: false }));
+app.use(express.static(path.join(path.dirname(fileURLToPath(import.meta.url)),"..","public")));
 
 app.set('view engine','ejs');
 
@@ -23,6 +25,4 @@ app.use("/weather", Weather);
 app.use('*',Error);
 
 
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
+app.listen(port, () => {});
